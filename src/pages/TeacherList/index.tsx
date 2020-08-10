@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Feather } from '@expo/vector-icons';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import api from '../../services/api';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function TeacherList() {
     const [isFiltersVisible, setIsFiltersVisible] = useState(false);
@@ -30,9 +31,13 @@ export default function TeacherList() {
         });
     }
 
+    useFocusEffect(() => {
+        loadFavorites();
+    });
+
     async function handleFilterSubmit() {
         loadFavorites();
-        
+
         const list = await api.get('classes', {
             params: {
                 subject,
